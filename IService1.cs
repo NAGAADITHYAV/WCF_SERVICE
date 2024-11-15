@@ -25,6 +25,8 @@ namespace WcfService1
 
         [OperationContract]
         string SignUp(string userName, string password, string userType = "Member", Session currentSession = null);
+        [OperationContract]
+        string DeleteUser(string userName, string userType, Session currentSession);
 
     }
 

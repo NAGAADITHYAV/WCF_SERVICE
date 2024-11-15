@@ -162,6 +162,44 @@ namespace WcfService1
 
             return ConvertDictionaryToJson(result);
         }
+
+        public string DeleteUser(string userName, string userType, Session currentSession)
+        {
+            var result = new Dictionary<string, object>();
+            try
+            {
+                if ((currentSession.UserType == "Staff") && loggedIn(currentSession))
+                {
+                    XmlHelper xmlHelper = new XmlHelper();
+                    XmlDocument xmlDoc = xmlHelper.LoadXml(userType);
+                    XmlNode userNode = xmlDoc.SelectSingleNode($"/Users/User[UserName='{userName}']");
+                    if (userNode == null)
+                    {
+                        result["status"] = true;
+                        result["message"] = "User Not Found!!";
+                    }
+                    else
+                    {
+                        XmlNode parentNode = userNode.ParentNode;
+                        if (parentNode != null)
+                        {
+                            parentNode.RemoveChild(userNode);
+                            xmlHelper.SaveXml(xmlDoc, userType);
+                        }
+                        result["status"] = true;
+                        result["message"] = "User deleted Sucessfully!!!";
+                    }
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                result["status"] = false;
+                result["exception"] = ex.Message;
+            }
+            result["currentSession"] = currentSession;
+            return ConvertDictionaryToJson(result);
+        }
     }
 
     public class XmlHelper
