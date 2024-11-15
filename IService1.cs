@@ -20,6 +20,12 @@ namespace WcfService1
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
         // TODO: Add your service operations here
+        [OperationContract]
+        string Login(string userName, string password, string userType = "Member");
+
+        [OperationContract]
+        string SignUp(string userName, string password, string userType = "Member", Session currentSession = null);
+
     }
 
 
@@ -43,5 +49,16 @@ namespace WcfService1
             get { return stringValue; }
             set { stringValue = value; }
         }
+    }
+
+    [DataContract]
+    public class Session
+    {
+        [DataMember]
+        public string UserName { get; set; }
+        [DataMember]
+        public string SessionId { get; set; }
+        [DataMember]
+        public string UserType { get; set; }
     }
 }
