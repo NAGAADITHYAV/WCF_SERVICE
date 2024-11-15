@@ -183,13 +183,7 @@ namespace WcfService1
         private string UsersXmlPath(string userType)
         {
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            if (userType == "Member")
-            {
-                return Path.Combine(baseDirectory, "App_Data/Member.xml");
-            }
-            else {
-                return Path.Combine(baseDirectory, "App_Data/Staff.xml");
-            }
+            return Path.Combine(baseDirectory, $"App_Data/{userType}.xml");
             
         }
     }
